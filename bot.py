@@ -32,6 +32,8 @@ def linkban(message):
         user_id = message.from_user.id
         bot.ban_chat_member(chat_id, user_id)
     bot.reply_to(message, f'Пользователь @{message.from_user.username} был забанен за отправку ссылок.') 
+    bot.delete_message(chat_id, message.message_id)
+
 
 @bot.message_handler(commands=['start'])
 def start(message):
