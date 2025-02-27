@@ -30,14 +30,6 @@ def make_some(message):
 Добро пожаловать в чат!🙌 (/help для команд)''')
     bot.approve_chat_join_request(message.chat.id, message.from_user.id)
 
-@bot.message_handler(func=lambda message: True)
-def linkban(message):
-    if 'https://' in message.text:
-        chat_id = message.chat.id
-        user_id = message.from_user.id
-        bot.ban_chat_member(chat_id, user_id)
-    bot.reply_to(message, f'Пользователь @{message.from_user.username} был забанен за отправку ссылок.') 
-    bot.delete_message(chat_id, message.message_id)
 
 
 @bot.message_handler(commands=['start'])
@@ -107,5 +99,13 @@ def text_message(message):
 def text_message(message):
     fact=random.choice(facts)
     bot.send_message(message.chat.id, f'Факт: {fact}')
-
+    
+@bot.message_handler(func=lambda message: True)
+def linkban(message):
+    if 'https://' in message.text:
+        chat_id = message.chat.id
+        user_id = message.from_user.id
+        bot.ban_chat_member(chat_id, user_id)
+    bot.reply_to(message, f'Пользователь @{message.from_user.username} был забанен за отправку ссылок.') 
+    bot.delete_message(chat_id, message.message_id)
 bot.infinity_polling(none_stop=True)
