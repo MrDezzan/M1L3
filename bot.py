@@ -80,7 +80,7 @@ def ban_user(message):
 def author_command(message):
     bot.send_message(message.chat.id, '''Данный бот был создан учеником Kodland Алиханом.
     author: @sirdezzan
-    bot ver: 0.1''')
+    bot ver: 1.3''')
 
 @bot.message_handler(commands=['anecdote'])
 def text_message(message):
