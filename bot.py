@@ -55,14 +55,19 @@ def help_command(message):
 def kick_user(message):
     if message.reply_to_message:
         chat_id = message.chat.id
-        user_id = message.reply_to_message.from_user.id
-        user_status = bot.get_chat_member(chat_id, user_id).status
-        if user_status == 'administrator' or user_status == 'creator':
-            bot.reply_to(message, "Невозможно кикнуть администратора.")
+        sender_id = message.from_user.id
+        sender_status = bot.get_chat_member(chat_id, sender_id).status
+        if sender_status == 'administrator' or sender_status == 'creator':
+            user_id = message.reply_to_message.from_user.id
+            user_status = bot.get_chat_member(chat_id, user_id).status
+            if user_status == 'administrator' or user_status == 'creator':
+                bot.reply_to(message, "Невозможно кикнуть администратора.")
 
+            else:
+                bot.kick_chat_member(chat_id, user_id)
+                bot.reply_to(message, f"Пользователь @{message.reply_to_message.from_user.username} был кикнут.")
         else:
-            bot.kick_chat_member(chat_id, user_id)
-            bot.reply_to(message, f"Пользователь @{message.reply_to_message.from_user.username} был кикнут.")
+            bot.reply_to(message, f'{message.from_user.first_name}, вы не являетесь администратором чата!')
     else:
         bot.reply_to(message, "Эта команда должна быть использована в ответ на сообщение пользователя, которого вы хотите кикнуть.") # НЕ ЗАБУДЬТЕ ДАТЬ ПРАВА АДМИНА БОТУ
 
@@ -99,7 +104,6 @@ def text_message(message):
 def text_message(message):
     fact=random.choice(facts)
     bot.send_message(message.chat.id, f'Факт: {fact}')
-    
 @bot.message_handler(func=lambda message: True)
 def linkban(message):
     if 'https://' in message.text:
