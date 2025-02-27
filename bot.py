@@ -25,6 +25,14 @@ facts = [
     'Все дети до трех лет могут быть признаны гениальными, так как их мозги развиваются быстрее, чем у взрослых.',
     ]
 
+@bot.message_handler(func=lambda message: True)
+def linkban(message):
+    if 'https://' in message.text:
+        chat_id = message.chat.id
+        user_id = message.from_user.id
+        bot.ban_chat_member(chat_id, user_id)
+    bot.reply_to(message, f'Пользователь @{message.from_user.username} был забанен за отправку ссылок.') 
+
 @bot.message_handler(commands=['start'])
 def start(message):
     bot.reply_to(message, '''Привет!👋 Я бот для управления чатом.
