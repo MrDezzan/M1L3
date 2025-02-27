@@ -24,6 +24,11 @@ facts = [
     'Во время сна мозг работает быстрее, чем во время бодрствования.',
     'Все дети до трех лет могут быть признаны гениальными, так как их мозги развиваются быстрее, чем у взрослых.',
     ]
+@bot.message_handler(content_types=['new_chat_members'])
+def make_some(message):
+    bot.send_message(message.chat.id, f'''Приветсвую, {message.from_user.first_name}!👋
+Добро пожаловать в чат!🙌 (/help для команд)''')
+    bot.approve_chat_join_request(message.chat.id, message.from_user.id)
 
 @bot.message_handler(func=lambda message: True)
 def linkban(message):
